@@ -45,17 +45,19 @@ class KellyCriterion(Bot):
             if player.id == self.my_id:
                 me = player
                 break
-        lo = prob-0.1
-        hi = prob
+        # don't always raise to the target amount because that reveals more information?
+        # idk
+        p = prob
 
         cost_to_play = state.target_bet - me.current_bet
 
-        raise_to = me.stack*(2*lo-1) - cost_to_play
-        call_to = me.stack*(2*hi-1) - cost_to_play
-        print('my stack:', me.stack, raise_to, call_to)
-        if raise_to >= 0:
+        b = len(state.players)
+
+        raise_to = p - (1-p)/b
+        print('my stack:', me.stack, raise_to)
+        if raise_to > cost_to_play:
             return {'type': 'raise', 'amount': raise_to}
-        elif call_to >= 0:
+        elif raise_to == cost_to_play:
             return {'type': 'call'}
         return {'type': 'fold'}
 
