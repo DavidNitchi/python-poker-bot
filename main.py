@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
-from websockets.sync.client import connect
 import argparse
-import time
-import treys
 
 from tg.bot import Bot
 

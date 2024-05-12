@@ -2,9 +2,7 @@
 import asyncio
 from typing import Tuple
 import argparse
-import time
 import treys
-import traceback
 
 from tg.bot import Bot
 import tg.types as pokerTypes
