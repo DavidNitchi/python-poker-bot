@@ -17,7 +17,7 @@ parser.add_argument('--host', type=str, default='localhost',
                     help='The host to connect to the server on')
 parser.add_argument('--room', type=str, default='my-new-room',
                     help='The room to connect to')
-parser.add_argument('--simulations', type=int, default=10000)
+parser.add_argument('--simulations', type=int, default=1000)
 
 args = parser.parse_args()
 
@@ -45,27 +45,25 @@ class KellyCriterion(Bot):
             if player.id == self.my_id:
                 me = player
                 break
-        # don't always raise to the target amount because that reveals more information?
-        # idk
         p = prob
-
-        cost_to_play = state.target_bet - me.current_bet
 
         b = len(state.players)
 
-        raise_to = p - (1-p)/b
-        print('my stack:', me.stack, raise_to)
-        if raise_to > cost_to_play:
-            return {'type': 'raise', 'amount': raise_to}
-        elif raise_to == cost_to_play:
+        raise_to = (p - (1-p)/b)*(me.stack)
+        print('my stack:', me.stack, raise_to, p, ''.join(map(card_name, hand)), ''.join(map(card_name, state.cards)))
+        if raise_to > state.target_bet:
+            return {'type': 'raise', 'amount': raise_to-state.target_bet}
+        elif raise_to >= state.target_bet or state.target_bet == me.current_bet:
             return {'type': 'call'}
+        print('fold')
         return {'type': 'fold'}
 
     def opponent_action(self, action, player):
-        print('opponent action?', action, player)
+        pass
 
     def game_over(self, payouts):
-        print('game over', payouts)
+        #print('game over', payouts)
+        pass
 
     def start_game(self, my_id):
         self.my_id = my_id
