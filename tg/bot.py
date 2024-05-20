@@ -28,7 +28,7 @@ class Bot:
         self.room = room
 
     async def start(self):
-        async for ws in connect(f"ws://{self.host}:{str(self.port)}/party/{self.room}"):
+        async for ws in connect(f"ws://{self.host}:{str(self.port)}/parties/poker/{self.room}"):
             await ws.send(json.dumps({'type': 'join-game'}))
             async for message in ws:
                 try:

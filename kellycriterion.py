@@ -3,6 +3,7 @@ import asyncio
 from typing import Tuple
 import argparse
 import treys
+import time
 
 from tg.bot import Bot
 import tg.types as pokerTypes
@@ -38,7 +39,6 @@ def card_name(card: pokerTypes.Card):
 # Use kelly criterion to bet based on the win probability
 class KellyCriterion(Bot):
     def act(self, state, hand):
-        # time.sleep(0.001)
         prob = self.win_prob(state, hand)
         me = None
         for player in state.players:
@@ -51,9 +51,12 @@ class KellyCriterion(Bot):
 
         raise_to = (p - (1-p)/b)*(me.stack)
         print('my stack:', me.stack, raise_to, p, ''.join(map(card_name, hand)), ''.join(map(card_name, state.cards)))
+
+        cost_to_play = min(state.target_bet-me.current_bet, me.stack)
+
         if raise_to > state.target_bet:
             return {'type': 'raise', 'amount': raise_to-state.target_bet}
-        elif raise_to >= state.target_bet or state.target_bet == me.current_bet:
+        elif raise_to >= cost_to_play or cost_to_play == 0:
             return {'type': 'call'}
         print('fold')
         return {'type': 'fold'}
