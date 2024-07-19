@@ -36,5 +36,5 @@ class TemplateBot(Bot):
         print('start game', my_id)
 
 if __name__ == "__main__":
-    bot = TemplateBot(args.host, args.port, args.room)
+    bot = TemplateBot(args.host, args.port, args.room, args.party)
     asyncio.run(bot.start())

@@ -18,6 +18,8 @@ parser.add_argument('--host', type=str, default='localhost',
                     help='The host to connect to the server on')
 parser.add_argument('--room', type=str, default='my-new-room',
                     help='The room to connect to')
+parser.add_argument('--party', type=str, default='poker',
+                    help='The room to connect to')
 parser.add_argument('--simulations', type=int, default=1000)
 
 args = parser.parse_args()
@@ -96,5 +98,5 @@ class KellyCriterion(Bot):
 
 
 if __name__ == "__main__":
-    bot = KellyCriterion(args.host, args.port, args.room)
+    bot = KellyCriterion(args.host, args.port, args.room, args.party)
     asyncio.run(bot.start())

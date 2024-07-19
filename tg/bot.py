@@ -22,13 +22,14 @@ class Bot:
     def start_game(self, my_id: str):
         raise NotImplementedError("Must override start_game")
 
-    def __init__(self, host: str, port: int, room: str):
+    def __init__(self, host: str, port: int, room: str, party: str):
         self.host = host
         self.port = port
         self.room = room
+        self.party = party
 
     async def start(self):
-        async for ws in connect(f"ws://{self.host}:{str(self.port)}/parties/poker/{self.room}"):
+        async for ws in connect(f"ws://{self.host}:{str(self.port)}/parties/{self.party}/{self.room}"):
             await ws.send(json.dumps({'type': 'join-game'}))
             async for message in ws:
                 try:
