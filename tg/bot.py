@@ -29,7 +29,8 @@ class Bot:
         self.party = party
 
     async def start(self):
-        url = f"wss://{self.host}/parties/{self.party}/{self.room}"
+        url = f"ws{'s' if self.host != 'localhost' else ''}://{self.host}{':{self.port}' if self.port else ''}/parties/{self.party}/{self.room}"
+        print(url)
         async for ws in connect(url):
             await ws.send(json.dumps({'type': 'join-game'}))
             async for message in ws:
