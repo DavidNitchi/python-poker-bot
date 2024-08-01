@@ -22,15 +22,18 @@ class Bot:
     def start_game(self, my_id: str):
         raise NotImplementedError("Must override start_game")
 
-    def __init__(self, host: str, port: int, room: str, party: str):
+    def __init__(self, host: str, port: int, room: str, party: str, key: str):
         self.host = host
         self.port = port
         self.room = room
         self.party = party
+        self.key = key
 
     async def start(self):
-        url = f"ws{'s' if self.host != 'localhost' else ''}://{self.host}{':{self.port}' if self.port else ''}/parties/{self.party}/{self.room}"
-        print(url)
+        port = f":{self.port}" if self.port else ''
+        protocol = 's' if self.host != 'localhost' else ''
+        url = f"ws{protocol}://{self.host}{port}/parties/{self.party}/{self.room}?key={self.key}"
+        
         async for ws in connect(url):
             await ws.send(json.dumps({'type': 'join-game'}))
             async for message in ws:

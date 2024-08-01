@@ -17,6 +17,8 @@ parser.add_argument('--room', type=str, default='my-new-room',
                     help='The room to connect to')
 parser.add_argument('--party', type=str, default='poker',
                     help='The party to connect to')
+parser.add_argument('--key', type=str, default='',
+                    help='The key for authentication')
 
 args = parser.parse_args()
 
@@ -38,5 +40,5 @@ class TemplateBot(Bot):
         print('start game', my_id)
 
 if __name__ == "__main__":
-    bot = TemplateBot(args.host, args.port, args.room, args.party)
+    bot = TemplateBot(args.host, args.port, args.room, args.party, args.key)
     asyncio.run(bot.start())
