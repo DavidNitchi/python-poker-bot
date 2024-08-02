@@ -32,9 +32,13 @@ class Bot:
     async def start(self):
         port = f":{self.port}" if self.port else ''
         protocol = 's' if self.host != 'localhost' else ''
-        url = f"ws{protocol}://{self.host}{port}/parties/{self.party}/{self.room}?key={self.key}"
+        url = f"ws{protocol}://{self.host}{port}/parties/{self.party}/{self.room}"
+
+        headers = {
+            "Authorization": f"Bearer {self.key}",
+        }
         
-        async for ws in connect(url):
+        async for ws in connect(url, extra_headers=headers):
             await ws.send(json.dumps({'type': 'join-game'}))
             async for message in ws:
                 try:
