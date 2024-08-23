@@ -35,7 +35,7 @@ class Bot:
         url = f"ws{protocol}://{self.host}{port}/parties/{self.party}/{self.room}"
 
         headers = {
-            "Authorization": f"Bearer {self.key}",
+            "Tg-Bot-Authorization": f"Bearer {self.key}",
         }
         
         async for ws in connect(url, extra_headers=headers):
