@@ -4,7 +4,7 @@ import argparse
 
 from tg.bot import Bot
 import time
-
+from tg.EV_bot import EV_bot
 parser = argparse.ArgumentParser(
     prog='Template bot',
     description='A Turing Games poker bot that always checks or calls, no matter what the target bet is (it never folds and it never raises)')
@@ -40,5 +40,5 @@ class TemplateBot(Bot):
         print('start game', my_id)
 
 if __name__ == "__main__":
-    bot = TemplateBot(args.host, args.port, args.room, args.party, args.key)
+    bot = EV_bot(args.host, args.port, args.room, args.party, args.key)
     asyncio.run(bot.start())
