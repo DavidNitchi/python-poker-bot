@@ -20,6 +20,9 @@ parser.add_argument('--room', type=str, default='my-new-room',
                     help='The room to connect to')
 parser.add_argument('--simulations', type=int, default=1000)
 
+parser.add_argument('--username', type=str, default='bot',
+                    help='The username for this bot (make sure it\'s unique)')
+
 args = parser.parse_args()
 
 def card_name(card: pokerTypes.Card):
@@ -96,5 +99,5 @@ class KellyCriterion(Bot):
 
 
 if __name__ == "__main__":
-    bot = KellyCriterion(args.host, args.port, args.room)
+    bot = KellyCriterion(args.host, args.port, args.room, args.username)
     asyncio.run(bot.start())
